@@ -1,0 +1,48 @@
+{% extends 'event_app/base.html' %} 
+{% block content %}
+<div class="container mt-5">
+  <h1 class="text-center mb-4">
+    {% if form.instance.pk %} Update Registration {% else %} Book Event: {{ event.title }}
+    {% endif %}
+  </h1>
+  <!-- Bootstrap Form -->
+  <form
+    method="post"
+    action=""
+    class="w-50 mx-auto border p-4 shadow-sm rounded"
+  >
+    {% csrf_token %}
+    <!-- Display Form Fields with Bootstrap -->
+    <!-- Persons -->
+    <div class="mb-3">
+      <label for="persons" class="form-label">Persons</label>
+      <input class="form-control {% if form.persons.errors %}is-invalid{% endif%}" type = "number" id="persons" name="persons" value="{{form.persons.value|default:'' }}"> {% if form.persons.errors %}
+      <div class="invalid-feedback">{{ form.persons.errors.0 }}</div>
+      {% endif %}
+    </div>
+    <!-- Contact Number -->
+    <div class="mb-3">
+      <label for="contact_number" class="form-label">Contact Number</label>
+      <input
+        type="text"
+        class="form-control {% if form.contact_number.errors %}is-invalid{% endif %}"
+        id="contact_number"
+        name="contact_number"
+        value="{{ form.contact_number.value|default:'' }}"
+        required
+      />
+      {% if form.contact_number.errors %}
+      <div class="invalid-feedback">{{ form.contact_number.errors.0 }}</div>
+      {% endif %}
+    </div>
+    
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary w-100">Book Event</button>
+  </form>
+  <!-- Back to List Link -->
+  <div class="text-center mt-3">
+    <a href="{% url 'event_list' %}" class="btn btn-link">Back to List</a>
+  </div>
+</div>
+{% endblock %}

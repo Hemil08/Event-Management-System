@@ -1,0 +1,32 @@
+{% extends 'event_app/base.html' %}
+{% block content %}
+    <h1 class="text-center mb-4">{{ event.title }}</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Event Details</h5>
+            <img src="{{ event.photo.url }}" alt="{{ event.title }}">
+
+            <p class="card-text">
+                <strong>Description:</strong> {{ event.description }}
+            </p>
+            <p class="card-text">
+                <strong>Start Date:</strong> {{ event.start_date }}
+            </p>
+            <p class="card-text">
+                <strong>End Date:</strong> {{ event.end_date }}
+            </p>
+            <p class="card-text">
+                <strong>Category: </strong> {{ event.category }}
+            </p>
+            <p class="card-text">
+                <strong>Created by: </strong> {{ event.created_by }}
+            </p>
+            <p class="card-text">
+                <strong>Cost Per Person: </strong> {{ event.cost_per_person }}
+            </p>
+            <p class="card-text">
+                <strong>Available Slots: </strong> {{ event.available_slots }}
+            </p>
+        </div>
+    </div>
+{% endblock %}

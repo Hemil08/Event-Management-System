@@ -1,0 +1,120 @@
+{% extends 'event_app/base.html' %}
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">
+            {% if form.instance.pk %}
+                Update Event
+            {% else %}
+                Create Event
+            {% endif %}
+        </h1>
+        <!-- Bootstrap Form -->
+        <form method="post"
+              action=""
+              class="w-50 mx-auto border p-4 shadow-sm rounded"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Display Form Fields with Bootstrap -->
+            <div class="mb-3">
+                <label for="title" class="form-label">Event Title</label>
+                <input type="text"
+                       class="form-control {% if form.title.errors %}is-invalid{% endif %}"
+                       id="title"
+                       name="title"
+                       value="{{ form.title.value|default:'' }}"
+                       placeholder="Enter Event title"
+                       required>
+                {% if form.title.errors %}<div class="invalid-feedback">{{ form.title.errors.0 }}</div>{% endif %}
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Event Description</label>
+                <textarea class="form-control {% if form.description.errors %}is-invalid{% endif %}"
+                          id="description"
+                          name="description"
+                          placeholder="Enter Event description"
+                          required>{{ form.description.value|default:'' }}</textarea>
+                {% if form.description.errors %}<div class="invalid-feedback">{{ form.description.errors.0 }}</div>{% endif %}
+            </div>
+            <!-- Image Section -->
+            <div class="mb-3">
+                <label for="photo" class="form-label">Image</label>
+                <input type="file" name="photo" id="photo" class="form-control {% if form.photo.errors %}is-invalid{% endif %}">
+                {% if form.photo.errors %}
+                    <div class="invalid-feedback">{{ form.photo.errors.0 }}</div>
+                {% endif %}
+            </div>            
+            <!-- start date section -->
+            <div class="mb-3">
+                <label for="start_date" class="form-label">Start Date</label>
+                <input type="datetime-local"
+                       class="form-control {% if form.start_date.errors %}is-invalid{% endif %}"
+                       id="start_date"
+                       name="start_date"
+                       value="{{ form.start_date.value|default:'' }}"
+                       required>
+                {% if form.start_date.errors %}<div class="invalid-feedback">{{ form.start_date.errors.0 }}</div>{% endif %}
+            </div>
+            <!-- end date section -->
+            <div class="mb-3">
+                <label for="end_date" class="form-label">End Date</label>
+                <input type="datetime-local"
+                       class="form-control {% if form.end_date.errors %}is-invalid{% endif %}"
+                       id="end_date"
+                       name="end_date"
+                       value="{{ form.end_date.value|default:'' }}"
+                       required>
+                {% if form.end_date.errors %}<div class="invalid-feedback">{{ form.end_date.errors.0 }}</div>{% endif %}
+            </div>
+            <!-- cost per person -->
+            <div class="mb-3">
+                <label for="cost_per_person" class="form-label">Cost Per Person: </label>
+                <input type="number"
+                        step="0.01"
+                       class="form-control {% if form.cost_per_person.errors %}is-invalid{% endif %}"
+                       id="cost_per_person"
+                       name="cost_per_person"
+                       value="{{ form.cost_per_person.value|default:'' }}"
+                       required>
+                {% if form.cost_per_person.errors %}<div class="invalid-feedback">{{ form.cost_per_person.errors.0 }}</div>{% endif %}
+            </div>
+            <!--Slots-->
+            <div class="mb-3">
+                <label for="available_slots" class="form-label">Available Slots: </label>
+                <input type="number"
+                       class="form-control {% if form.available_slots.errors %}is-invalid{% endif %}"
+                       id="available_slots"
+                       name="available_slots"
+                       value="{{ form.available_slots.value|default:'' }}"
+                       required>
+                {% if form.available_slots.errors %}<div class="invalid-feedback">{{ form.available_slots.errors.0 }}</div>{% endif %}
+            </div>
+            <!-- Categories Multi-Select with Inline Checkboxes -->
+            <div class="mb-3">
+                <label for="category" class="form-label">Categories</label>
+                <select
+                    id = "category"
+                    name = "category"
+                    class = "form-select {% if form.category.errors %}is-invalid{% endif %}">
+
+                    <option value="">-- Select a Category --</option>
+                    {% for category in form.category.field.queryset %}
+                        <option value="{{ category.id }}"
+                            {% if category.id == form.category.value %}selected{% endif %}>
+                            {{ category.name }}
+                        </option> 
+                    {% endfor %}
+                </select>
+                {% if form.category.errors %}
+                    <div class="invalid-feedback">{{ form.category.errors.0 }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Save</button>
+        </form>
+        <!-- Back to List Link -->
+        <div class="text-center mt-3">
+            <a href="{% url 'event_list' %}" class="btn btn-link">Back to List</a>
+        </div>
+    </div>
+{% endblock %}

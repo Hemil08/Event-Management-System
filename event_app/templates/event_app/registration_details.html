@@ -1,0 +1,21 @@
+{% extends 'event_app/base.html' %}
+{% block content %}
+    <h1 class="text-center mb-4">{{ registration.event }}</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Registration Details</h5>
+            <p class="card-text">
+                <strong>Persons:</strong> {{ registration.persons }}
+            </p>
+            <p class="card-text">
+                <strong>Contact Number: </strong> {{ registration.contact_number }}
+            </p>
+            <p class="card-text">
+                <strong>Cost Per Person: </strong> {{ registration.event.cost_per_person }}
+            </p>
+            <p class="card-text">
+                <strong>Total Cost: </strong> {{ registration.total_cost}}
+            </p>
+        </div>
+    </div>
+{% endblock %}

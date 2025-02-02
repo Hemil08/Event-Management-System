@@ -1,0 +1,59 @@
+{% extends "event_app/base.html" %} 
+{% block content %}
+<h1 class="text-center mb-4">Event List</h1>
+<!-- Action Bar -->
+ {% if user.is_manager %}
+<div class="d-flex justify-content-end mb-4">
+    <a href="{% url 'event_create' %}" class="btn btn-primary me-2">Create a New Event</a>    
+</div>
+{% endif %}
+<!-- Event List -->
+<ul class="list-unstyled ">
+  {%for category in categories%}
+  <li>
+    <strong>{{ category.name }}</strong>
+    <ul class="container mt-5 list-unstyled">
+      <div class="row">  
+      {% for event in category.events.all %}
+      <div class="col-md-6 mb-4"> 
+      <li>
+        <div class="card" style="width: 19rem;">
+          <img
+            class="card-img-top"
+            src="{{ event.photo.url }}"
+            alt="{{ event.title }}"
+            style="height: 200px, object-fit:cover"
+          />
+          <div class="card-body">
+            <h5 class="card-title fw-bold text-primary">{{ event.title }}</h5>
+            <p class="card-text mb-1"><strong>Start Date:-</strong> {{ event.start_date }}</p>
+            <p class="card-text mb-1"><strong>End Date:-</strong> {{ event.end_date }}</p>
+            <p class="card-text mb-1"><strong>Cost Per Person:-</strong> {{event.cost_per_person}} $</p>
+            <p class="card-text"><strong>Available Slots:-</strong> {{event.available_slots}}</p>
+          </div>
+          <div class="btn-group ms-3 mx-auto">
+            <a href="{% url 'event_details' event.pk %}"
+               class="btn btn-sm btn-outline-secondary">View</a>
+               {% if  user.is_manager %}
+            <a href="{% url 'event_update' event.pk %}"
+               class="btn btn-sm btn-outline-secondary">Edit</a>
+            <a href="{% url 'event_delete' event.pk %}"
+               class="btn btn-sm btn-outline-danger">Delete</a>
+               {% endif %}
+          </div>
+          {% if user.is_participant %}
+          <a href="{% url 'registration_create' event.pk   %}" class="btn btn-primary mt-2 w-50 mx-auto">Book Event</a>
+          {% endif %}
+        </div>
+  
+      </li>
+      </div>
+      {% empty %}
+      <li>No events available.</li>
+      {% endfor %}
+    </div>
+    </ul>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock content %}
